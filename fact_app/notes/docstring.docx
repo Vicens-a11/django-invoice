@@ -1,0 +1,324 @@
+Parfait ! 😄 On va faire un **cours complet sur les docstrings en Python**, avec **comment les écrire selon le type d’élément** (fonction, classe, module, méthode, etc.), et **les bonnes pratiques**.
+
+---
+
+# 📝 Les Docstrings en Python
+
+## 1️⃣ Qu’est-ce qu’une docstring ?
+
+* **Docstring = documentation string**
+* Une chaîne de caractères **placée juste après la définition d’un module, d’une fonction, d’une classe ou d’une méthode**.
+* Elle sert à **expliquer ce que fait le code**, son usage, ses paramètres et retours.
+* Python peut lire les docstrings avec la fonction intégrée `help()`.
+
+### Exemple minimal
+
+```python
+def add(a, b):
+    """Retourne la somme de a et b"""
+    return a + b
+
+help(add)
+```
+
+Sortie :
+
+```
+Help on function add in module __main__:
+
+add(a, b)
+    Retourne la somme de a et b
+```
+
+---
+
+## 2️⃣ Syntaxe de base
+
+* Toujours entre **triple quotes** (`"""` ou `'''`)
+* Peut s’étendre sur plusieurs lignes
+* La **première ligne** est souvent un résumé court (1 ligne)
+* Les lignes suivantes peuvent contenir **détails, paramètres, retours, exceptions**
+
+```python
+def multiply(a, b):
+    """
+    Multiplie deux nombres.
+
+    Parameters:
+        a (int or float): premier nombre
+        b (int or float): deuxième nombre
+
+    Returns:
+        int or float: résultat de la multiplication
+    """
+    return a * b
+```
+
+---
+
+## 3️⃣ Docstring pour une **fonction**
+
+### Contenu recommandé :
+
+1. **Résumé court** → ce que fait la fonction
+2. **Paramètres** → type et description
+3. **Retour** → type et description
+4. **Exceptions** → si la fonction peut lever des erreurs
+5. **Exemples** → parfois utile pour l’utilisateur
+
+```python
+def divide(a, b):
+    """
+    Divise a par b.
+
+    Parameters:
+        a (float): numérateur
+        b (float): dénominateur
+
+    Returns:
+        float: résultat de la division
+
+    Raises:
+        ZeroDivisionError: si b est égal à 0
+    """
+    return a / b
+```
+
+---
+
+## 4️⃣ Docstring pour une **classe**
+
+* Explique **le rôle de la classe**
+* Documente **les attributs** et **les méthodes importantes**
+* Peut contenir **notes supplémentaires** sur le comportement, contraintes, usage
+
+```python
+class Customer:
+    """
+    Représente un client du système.
+
+    Attributes:
+        name (str): nom du client
+        email (str): email du client
+        phone (str): numéro de téléphone
+    """
+    def __init__(self, name, email, phone):
+        self.name = name
+        self.email = email
+        self.phone = phone
+```
+
+---
+
+## 5️⃣ Docstring pour un **module**
+
+* Placé **tout en haut du fichier**
+* Explique ce que contient le module et à quoi il sert
+* Peut lister les **classes et fonctions principales** du module
+
+```python
+"""
+Module customer_management
+--------------------------
+Fournit des classes et fonctions pour gérer les clients
+dans le système de facturation.
+Contient:
+    - Customer
+    - Invoice
+    - add_customer
+"""
+```
+
+---
+
+## 6️⃣ Docstring pour une **méthode d’instance**
+
+* Similaire à la docstring d’une fonction
+* Peut préciser **si la méthode modifie l’objet**, retourne quelque chose ou lève une exception
+
+```python
+class Customer:
+    def update_email(self, new_email):
+        """
+        Met à jour l'email du client.
+
+        Parameters:
+            new_email (str): nouvelle adresse email
+
+        Returns:
+            None
+        """
+        self.email = new_email
+```
+
+---
+
+## 7️⃣ Bonnes pratiques générales
+
+1. **Toujours utiliser des triple quotes (`"""`)**, même pour une seule ligne.
+2. **Résumé court en première ligne**
+3. Laisser **une ligne vide après le résumé** si tu ajoutes des détails
+4. **Documenter tous les paramètres et retours** pour les fonctions/méthodes
+5. Pour les **classes**, lister les attributs importants et leur rôle
+6. Pour les **modules**, expliquer brièvement le contenu et l’usage global
+7. **Pas de backslash `\` non échappé** dans les docstrings → utiliser `/` ou `\\` si besoin
+
+---
+
+## 8️⃣ Exemple complet : modèle Django
+
+```python
+class Invoice(models.Model):
+    """
+    Name        : Invoice model
+    Description : Représente une facture émise à un client.
+    Author      : kenmatiovicens@icloud.com
+    Date        : 20-01-2026
+    Version     : 1.0
+    Purpose     : Stocker les informations de facturation et les lier à un client.
+
+    Fields:
+        - invoice_number : CharField, numéro unique de la facture
+        - customer       : ForeignKey vers Customer
+        - total_amount   : DecimalField, montant total
+        - status         : CharField, statut de la facture (payée, en attente, annulée)
+        - created_at     : DateTimeField, date de création
+        - updated_at     : DateTimeField, date de dernière mise à jour
+
+    Notes:
+        - Les factures sont ordonnées par date de création décroissante.
+        - Utiliser MEDIA_ROOT pour stocker les PDF attachés.
+    """
+```
+
+
+
+Parfait ! 😎 Je vais te créer un **template de docstring professionnel pour Django**, prêt à être copié-collé pour **toutes tes classes et fonctions**, avec tous les champs, attributs et bonnes pratiques inclus.
+
+---
+
+# 📝 Template Docstring pour **une classe Django (modèle)**
+
+```python
+"""
+Name        : <Nom de la classe>
+Description : <Brève description de ce que fait la classe>
+Author      : <Ton nom ou email>
+Date        : <Date de création>
+Version     : <Version de la classe>
+Purpose     : <Raison d'être / usage principal>
+Usage       : <Comment la classe est utilisée dans le projet>
+
+Fields      :
+    - <field_name> : <Type de champ> - <Description du champ>
+    - <field_name> : <Type de champ> - <Description du champ>
+    ...
+
+Methods     :
+    - <method_name>(...) : <Description rapide de ce que fait la méthode>
+    - <method_name>(...) : <Description rapide>
+
+Notes       :
+    - <Informations supplémentaires ou contraintes particulières>
+    - <Bonnes pratiques à respecter>
+"""
+```
+
+---
+
+# 📝 Template Docstring pour **une fonction ou méthode**
+
+```python
+"""
+Name        : <Nom de la fonction>
+Description : <Brève description de ce que fait la fonction>
+
+Parameters  :
+    - <param1> (<type>) : <Description>
+    - <param2> (<type>) : <Description>
+    ...
+
+Returns     :
+    <Type de retour> : <Description>
+
+Raises      :
+    <ExceptionType> : <Quand elle est levée, si applicable>
+
+Notes       :
+    - <Informations complémentaires sur la fonction>
+    - <Exemple d’utilisation si nécessaire>
+"""
+```
+
+---
+
+# 📝 Template Docstring pour **un module Python**
+
+```python
+"""
+Module      : <Nom du module>
+Description : <Ce que fait le module>
+
+Contains    :
+    - Classes : <Liste des classes principales>
+    - Functions : <Liste des fonctions principales>
+
+Usage       :
+    - <Comment utiliser ce module dans le projet>
+
+Notes       :
+    - <Informations supplémentaires>
+"""
+```
+
+---
+
+## 🔹 Exemple concret avec ta classe `Customer`
+
+```python
+class Customer(models.Model):
+    """
+    Name        : Customer
+    Description : Représente un client dans le système de facturation.
+    Author      : kenmatiovicens@icloud.com
+    Date        : 20-01-2026
+    Version     : 1.0
+    Purpose     : Stocker les informations personnelles et de contact des clients.
+    Usage       : Utilisé pour gérer les clients dans les factures et rapports.
+
+    Fields      :
+        - name        : CharField(max_length=100) - Nom complet du client
+        - email       : EmailField - Adresse email du client
+        - phone       : CharField(max_length=132) - Numéro de téléphone
+        - address     : TextField(max_length=64) - Adresse postale
+        - sex         : CharField(max_length=1, choices=SEX_TYPES) - Sexe du client
+        - age         : CharField(max_length=12) - Âge du client
+        - city        : CharField(max_length=32) - Ville
+        - zip_code    : CharField(max_length=16) - Code postal
+        - created_date: DateTimeField(auto_now_add=True) - Date de création de l’enregistrement
+        - save_by     : ForeignKey(User, on_delete=models.PROTECT) - Utilisateur qui a créé l’entrée
+
+    Methods     :
+        - __str__() : Retourne le nom du client pour l’affichage
+
+    Notes       :
+        - Les clients sont ordonnés par date de création décroissante
+        - Le champ `sex` utilise le tuple `SEX_TYPES` pour les choix possibles
+        - `save_by` protège contre la suppression de l’utilisateur lié
+    """
+```
+
+---
+
+💡 **Conseils d’utilisation :**
+
+1. Copie ce template pour **toutes tes classes et modèles**.
+2. Remplis les champs `Fields` et `Methods` pour chaque modèle.
+3. Pour les fonctions, utilise le template **fonction/méthode**.
+4. Toujours **éviter les backslashes non échappés** (`\`) dans les docstrings → utiliser `/` si tu parles de chemins.
+
+---
+
+Si tu veux, je peux te faire **la version complète pour tous tes modèles (`Customer`, `Invoice`, etc.) et toutes les fonctions importantes de ton projet**, déjà prête à coller dans ton code.
+
+Veux‑tu que je fasse ça ?

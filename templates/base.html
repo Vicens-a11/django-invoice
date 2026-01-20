@@ -1,0 +1,33 @@
+<!DOCTYPE>
+{% load static %}
+<html lang="fr">
+<head>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Système de Facturation{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}"> 
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <h1>Système de Facturation</h1>
+        <nav>
+            {% comment %}
+            <ul>
+                 <li><a href="{% url 'home' %}">Accueil</a></li> 
+                <li><a href="{% url 'invoices' %}">Factures</a></li>
+                <li><a href="{% url 'clients' %}">Clients</a></li>
+                <li><a href="{% url 'products' %}">Produits</a></li>
+            </ul>{% endcomment %}
+        </nav>
+    </header>
+    
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 Système de Facturation. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>        
