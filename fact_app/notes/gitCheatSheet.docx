@@ -369,3 +369,363 @@ Avec ça, tu peux maintenant :
 * Revenir à une branche précédente sans perdre tes changements
 
 
+
+
+
+
+
+
+Parfait Kentio 😄 ! Voici un **diagramme visuel complet du workflow Git/GitHub pour ton projet Django**, basé sur ton projet `django_invoice` avec `add_customer.html`, `add_invoice.html`, etc.
+
+---
+
+```
+                         ┌───────────────┐
+                         │     main      │  ← branche stable
+                         │ (index.html,  │
+                         │  models.py)   │
+                         └───────┬───────┘
+                                 │ git pull
+                 ┌───────────────┴───────────────┐
+                 │                               │
+         git checkout -b improve-add-customer   git checkout -b feature-add-invoice
+        (nouveau template client)             (nouveau template facture)
+                 │                               │
+       Travailler sur add_customer.html      Travailler sur add_invoice.html
+       Modifier views.py, templates/        Modifier views.py, templates/
+       Ajouter les améliorations           Ajouter la logique facture
+                 │                               │
+           git add .                          git add .
+           git commit -m "Amélioration      git commit -m "Ajout formulaire
+           template client"                  facture"
+                 │                               │
+        git push -u origin improve-add-customer git push -u origin feature-add-invoice
+                 │                               │
+      (branche disponible sur GitHub)       (branche disponible sur GitHub)
+                 │                               │
+          Test et validation                  Test et validation
+                 │                               │
+          git pull origin main                git pull origin main
+          git merge improve-add-customer      git merge feature-add-invoice
+                 │                               │
+          git push origin main               git push origin main
+                 │
+          Supprimer branche locale et distante
+          git branch -d improve-add-customer
+          git push origin --delete improve-add-customer
+```
+
+---
+
+### 🔹 Points clés du diagramme
+
+1. **main** = branche stable, toujours fonctionnelle
+2. **Branches de fonctionnalités / améliorations** : chaque tâche sur une branche distincte
+3. **Commit / Push** : sauvegarder ton travail local et distant
+4. **Merge** : intégrer les fonctionnalités terminées dans main
+5. **Supprimer la branche** : nettoyer le projet après fusion
+
+---
+
+💡 **Astuce pour ne jamais bloquer** :
+
+* Toujours **commit et push** avant de changer de branche
+* Si modifications non terminées et besoin de changer de branche → utiliser `git stash`
+* Vérifier `git status` avant chaque action importante
+
+
+
+
+que se passe si je fais:
+
+git add .
+git commit -m "message"
+sans faire git push ?
+
+Ah, c’est une question très importante, Kentio 😎. Voyons ça clairement :
+
+---
+
+### 1️⃣ Ce que font ces commandes :
+
+```bash
+git add .
+```
+
+* **Ajoute tous les fichiers modifiés et nouveaux au “staging area”**.
+* C’est comme dire à Git : *“Je veux sauvegarder ces changements dans mon prochain commit.”*
+
+```bash
+git commit -m "message"
+```
+
+* **Crée un commit local** avec tous les fichiers ajoutés.
+* Le commit est **enregistré uniquement sur ton ordinateur**, dans ton dépôt local.
+* Git garde un historique de toutes tes modifications locales.
+
+---
+
+### 2️⃣ Ce qui **ne se passe pas** si tu ne fais pas `git push`
+
+* Les changements **restent seulement sur ta machine**.
+* Personne d’autre (collaborateurs, GitHub) **ne voit ton travail**.
+* Si ton ordinateur plante ou que tu supprimes le projet, ces commits locaux sont **perdus**.
+
+---
+
+### 3️⃣ Quand tu dois faire `git push`
+
+```bash
+git push
+```
+
+* Envoie tes commits locaux sur le **dépôt distant** (GitHub, GitLab, etc.)
+* Permet de **sauvegarder ton travail et de le partager**
+* Si tu travailles sur une branche : `git push -u origin nom-branche` pour créer la branche distante la première fois.
+
+---
+
+### ✅ Résumé simple :
+
+| Commande        | Effet                                                         | Local/Remote |
+| --------------- | ------------------------------------------------------------- | ------------ |
+| `git add .`     | Prépare les fichiers pour le commit                           | Local        |
+| `git commit -m` | Sauvegarde les changements dans l’historique Git local        | Local        |
+| `git push`      | Envoie les commits locaux sur GitHub (ou autre dépôt distant) | Remote       |
+
+---
+
+💡 **Astuce pratique** :
+Tu peux faire autant de commits locaux que tu veux sans push. Mais **pousse régulièrement**, surtout avant de changer de machine, partager ton code, ou créer une pull request.
+
+
+
+
+
+Ah, c’est une question très importante, Kentio 😎. Voyons ça clairement :
+
+---
+
+### 1️⃣ Ce que font ces commandes :
+
+```bash
+git add .
+```
+
+* **Ajoute tous les fichiers modifiés et nouveaux au “staging area”**.
+* C’est comme dire à Git : *“Je veux sauvegarder ces changements dans mon prochain commit.”*
+
+```bash
+git commit -m "message"
+```
+
+* **Crée un commit local** avec tous les fichiers ajoutés.
+* Le commit est **enregistré uniquement sur ton ordinateur**, dans ton dépôt local.
+* Git garde un historique de toutes tes modifications locales.
+
+---
+
+### 2️⃣ Ce qui **ne se passe pas** si tu ne fais pas `git push`
+
+* Les changements **restent seulement sur ta machine**.
+* Personne d’autre (collaborateurs, GitHub) **ne voit ton travail**.
+* Si ton ordinateur plante ou que tu supprimes le projet, ces commits locaux sont **perdus**.
+
+---
+
+### 3️⃣ Quand tu dois faire `git push`
+
+```bash
+git push
+```
+
+* Envoie tes commits locaux sur le **dépôt distant** (GitHub, GitLab, etc.)
+* Permet de **sauvegarder ton travail et de le partager**
+* Si tu travailles sur une branche : `git push -u origin nom-branche` pour créer la branche distante la première fois.
+
+---
+
+### ✅ Résumé simple :
+
+| Commande        | Effet                                                         | Local/Remote |
+| --------------- | ------------------------------------------------------------- | ------------ |
+| `git add .`     | Prépare les fichiers pour le commit                           | Local        |
+| `git commit -m` | Sauvegarde les changements dans l’historique Git local        | Local        |
+| `git push`      | Envoie les commits locaux sur GitHub (ou autre dépôt distant) | Remote       |
+
+---
+
+💡 **Astuce pratique** :
+Tu peux faire autant de commits locaux que tu veux sans push. Mais **pousse régulièrement**, surtout avant de changer de machine, partager ton code, ou créer une pull request.
+
+
+
+
+
+
+
+
+
+
+donc a chaque fois si je modifie un document, pour quitter d'une branche a une autre je dois add, commit et push avant ?
+
+
+Ah oui Kentio 😄, je vois exactement ce qui se passe ici. On va clarifier **la logique et les bonnes pratiques**.
+
+---
+
+### 1️⃣ Pourquoi Git bloque ton `checkout`
+
+Quand tu essayes de passer d’une branche à une autre :
+
+```bash
+git checkout improve-add-customer
+```
+
+Git te dit :
+
+```
+error: The following untracked working tree files would be overwritten by checkout:
+        fact_app/notes/cmdgit.docx
+        fact_app/notes/get_post.docx
+        templates/add_invoice.html
+```
+
+**Explication :**
+
+* Ces fichiers existent dans **ta branche actuelle (`main`)** mais **ne sont pas suivis** (untracked).
+* Si Git te laissait changer de branche, ces fichiers seraient écrasés par ce qui existe dans `improve-add-customer`.
+* Pour protéger tes modifications, Git bloque le checkout.
+
+---
+
+### 2️⃣ Comment résoudre
+
+Tu as trois options :
+
+#### a) **Commit tes modifications**
+
+C’est ce que tu as fait :
+
+```bash
+git add .
+git commit -m "get_post.docx and add_invoice.html disappear"
+```
+
+✅ Maintenant les fichiers sont **sauvés dans l’historique Git**.
+
+Après ça, tu peux changer de branche sans problème :
+
+```bash
+git checkout improve-add-customer
+```
+
+---
+
+#### b) **Stash les modifications (pas de commit)**
+
+Si tu ne veux pas commiter tout de suite :
+
+```bash
+git stash          # met tes changements de côté
+git checkout improve-add-customer
+git stash pop      # récupère tes changements
+```
+
+* Très pratique pour tester une autre branche rapidement
+* Ne pollue pas ton historique de commits
+
+---
+
+#### c) **Supprimer ou déplacer les fichiers non suivis**
+
+```bash
+rm fact_app/notes/cmdgit.docx
+rm fact_app/notes/get_post.docx
+rm templates/add_invoice.html
+```
+
+* Risqué si tu veux garder ces fichiers, donc mieux vaut commit ou stash
+
+---
+
+### 3️⃣ 📝 Bonnes pratiques
+
+1. **Toujours `add + commit` ou `stash` avant de changer de branche**
+   → sinon Git bloque le checkout
+2. **Commit souvent**, mais pas obligatoirement push tout de suite
+   → push seulement quand tu veux sauvegarder sur GitHub
+3. Les fichiers **untracked** (nouveaux fichiers) doivent être soit **commités**, soit **stashés**, sinon Git bloque
+
+---
+
+### 4️⃣ Réponse directe à ta question
+
+> Donc à chaque fois si je modifie un document, pour quitter d'une branche à une autre je dois add, commit et push avant ?
+
+* **Add + commit** → oui, ou **stash**
+* **Push** → pas obligatoire juste pour changer de branche
+
+  * Push sert seulement à envoyer tes commits sur GitHub (sauvegarde distante / partage)
+
+
+
+Parfait Kentio 😎 ! Voici un **diagramme visuel simple pour comprendre ce qui se passe quand tu veux changer de branche avec des modifications en cours**.
+
+---
+
+```
+                   ┌─────────────────────┐
+                   │  Branche actuelle   │
+                   │      main           │
+                   │  Fichiers modifiés  │
+                   └─────────┬──────────┘
+                             │
+           ┌─────────────────┴─────────────────┐
+           │ Options avant de changer de branche │
+           └─────────────────┬─────────────────┘
+                             │
+           ┌───────────────┬───────────────┬───────────────┐
+           │               │               │               │
+   git add + git commit   git stash      Supprimer/ignorer
+   (sauvegarde locale)   (mettre de    fichiers non suivis
+                         côté temporairement)
+           │               │               │
+           ▼               ▼               ▼
+   ┌───────────────┐ ┌───────────────┐ ┌───────────────┐
+   │ Fichiers en   │ │ Working Tree  │ │ Working Tree  │
+   │ historique    │ │ vide pour la  │ │ sans fichiers │
+   │ Git local     │ │ branche       │ │ conflictuels  │
+   └───────┬───────┘ └───────┬───────┘ └───────┬───────┘
+           │                 │                 │
+           ▼                 ▼                 ▼
+   git checkout nom-branche  git checkout nom-branche  git checkout nom-branche
+           │                 │                 │
+           ▼                 ▼                 ▼
+   Travaille sur nouvelle branche sans perte de modifications
+           │
+           ▼
+Optionnel : git push pour envoyer sur GitHub
+```
+
+---
+
+### 🔹 Points importants
+
+1. **Commit ou stash** = obligatoire pour changer de branche si tu as des modifications
+2. **Push** = pas obligatoire juste pour changer de branche, sert à sauvegarder sur GitHub
+3. Les fichiers **untracked** (nouveaux) bloquent aussi le checkout → doivent être commités ou stashés
+4. Après changement de branche, tu peux continuer à travailler normalement
+
+
+
+
+
+
+par exemple je vient de modifier un fichier particulier, quand j'essaie de changer de branche:
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git checkout improve-add-customer
+error: Your local changes to the following files would be overwritten by checkout:
+        fact_app/notes/gitCheatSheet.docx
+Please commit your changes or stash them before you switch branches.
+Aborting
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> 
