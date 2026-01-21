@@ -1,0 +1,759 @@
+Parfait 😄, on va décortiquer **chaque commande Git** que tu as utilisée et ce qu’elle fait exactement.
+
+---
+
+## 1️⃣ `git add .`
+
+* **But** : dire à Git *« ces fichiers et modifications doivent être pris en compte pour le prochain commit »*.
+* **Le `.`** signifie : *tous les fichiers et dossiers modifiés dans le répertoire actuel*.
+
+Exemple pratique :
+
+```bash
+git add .
+```
+
+* Si tu modifies `views.py` et `add_customer.html`, Git les marque comme **prêts à être commités**.
+* Les fichiers non suivis (`untracked files`) sont également ajoutés si tu utilises `git add .`.
+* Tu peux aussi ajouter **un seul fichier** :
+
+```bash
+git add templates/add_customer.html
+```
+
+---
+
+## 2️⃣ `git commit -m "quelque chose"`
+
+* **But** : enregistrer un **snapshot (photo)** de ton projet **dans l’historique Git**.
+* **`-m "..."`** : c’est le **message du commit**, qui décrit ce que tu as fait.
+
+Exemple :
+
+```bash
+git commit -m "Add new customer template"
+```
+
+* Git prend **tous les fichiers que tu as ajoutés avec `git add`** et les enregistre dans un commit.
+* Chaque commit a un **identifiant unique** (hash) que tu peux utiliser pour revenir en arrière.
+
+💡 Astuce : **messages clairs et courts** = super important pour retrouver facilement ce qui a été fait.
+
+---
+
+## 3️⃣ `git push`
+
+* **But** : envoyer tes commits locaux vers le **dépôt distant** (GitHub, GitLab…).
+* Exécution typique :
+
+```bash
+git push
+```
+
+* Git regarde **la branche actuelle**, puis envoie **tous les commits qui n’ont pas encore été poussés** vers le dépôt distant.
+* Si c’est la première fois que tu pousses une nouvelle branche, il faut préciser :
+
+```bash
+git push -u origin ma-branche
+```
+
+* `-u origin ma-branche` : crée un lien entre ta branche locale et la branche distante pour les futurs push/pull.
+
+---
+
+### 🔹 Résumé rapide
+
+| Commande                  | Ce qu’elle fait                                               |
+| ------------------------- | ------------------------------------------------------------- |
+| `git add .`               | Marque tous les fichiers modifiés comme prêts pour le commit  |
+| `git commit -m "message"` | Enregistre ces fichiers dans l’historique Git avec un message |
+| `git push`                | Envoie les commits locaux vers le dépôt distant (GitHub)      |
+
+---
+
+💡 **Analogie simple** :
+
+* `git add` → **mettre tes fichiers dans le panier**
+* `git commit` → **casser le panier en photo et noter ce qui a été fait**
+* `git push` → **envoyer la photo dans un album partagé en ligne**
+
+
+
+
+
+Ah super question 😄 — c’est une subtilité importante de Git ! On va la détailler clairement.
+
+---
+
+# 1️⃣ `git push`
+
+```bash
+git push
+```
+
+* **Fonction** : envoie tes commits **de ta branche locale** vers la **branche distante correspondante** sur le dépôt (GitHub).
+* **Condition** : il doit déjà exister **une branche distante suivie**.
+* Si tu es sur `main` et que `main` est déjà liée à `origin/main`, ça fonctionne parfaitement.
+
+Exemple :
+
+```bash
+# Sur la branche main
+git push
+```
+
+* Envoie tous les commits locaux sur `main` du dépôt GitHub.
+
+---
+
+# 2️⃣ `git push -u origin improve-add-customer`
+
+```bash
+git push -u origin improve-add-customer
+```
+
+* **Fonction** :
+
+  1. Crée la branche `improve-add-customer` sur le dépôt distant (`origin`) si elle n’existe pas encore.
+  2. Envoie tes commits **de ta branche locale** vers cette nouvelle branche distante.
+  3. **Lie ta branche locale à la branche distante** (`upstream`) pour que, à l’avenir, tu puisses simplement faire `git push` ou `git pull` sans préciser le nom du dépôt ou de la branche.
+
+* **Explication du `-u`** : `-u` = `--set-upstream` → Git sait que **ta branche locale suit cette branche distante**.
+
+Exemple concret :
+
+```bash
+# Première fois que tu envoies la branche sur GitHub
+git push -u origin improve-add-customer
+```
+
+Après ça, pour les prochains commits sur cette branche, tu pourras juste faire :
+
+```bash
+git push
+```
+
+et Git saura automatiquement **vers quelle branche distante envoyer tes commits**.
+
+---
+
+# 3️⃣ Comparaison simple
+
+| Commande                       | Quand l’utiliser                                                 | Particularité                                                                      |
+| ------------------------------ | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `git push`                     | Quand la branche locale **est déjà liée** à une branche distante | Envoie les commits sur la branche distante suivie                                  |
+| `git push -u origin <branche>` | La **première fois** qu’on pousse une branche locale             | Crée la branche distante et lie ta branche locale à elle pour les futurs push/pull |
+
+---
+
+💡 **Astuce pratique**
+
+* Toujours utiliser `git push -u origin <branche>` **la première fois** pour une nouvelle branche.
+* Ensuite, juste `git push` suffit.
+
+
+
+
+
+
+Parfait 😄, on va compléter le panorama et te montrer **quand et comment utiliser toutes ces commandes ensemble**.
+
+---
+
+# 1️⃣ `git status`
+
+* **But** : voir l’état actuel de ton dépôt Git **local**.
+* Montre :
+
+  * Sur quelle **branche** tu es (`main`, `improve-add-customer`, etc.)
+  * Quels fichiers sont **modifiés mais pas ajoutés** (`modified`)
+  * Quels fichiers sont **ajoutés pour le prochain commit** (`staged`)
+  * Quels fichiers sont **non suivis** (`untracked`)
+
+Exemple :
+
+```bash
+git status
+```
+
+Sortie typique :
+
+```
+On branch main
+Changes not staged for commit:
+  modified:   views.py
+  modified:   index.html
+
+Untracked files:
+  add_invoice.html
+```
+
+💡 **Quand l’utiliser** :
+
+* Avant chaque `git add` pour savoir ce qui a changé
+* Avant un `git commit` pour vérifier ce qui va être enregistré
+* Après un `git stash` ou `git checkout` pour confirmer où tu en es
+
+---
+
+# 2️⃣ `git checkout -b <nom-de-branche>`
+
+* **But** : créer **une nouvelle branche** et **basculer dessus en même temps**.
+* Une branche te permet de travailler sur **une fonctionnalité ou correction** sans toucher à la branche principale (`main`).
+
+Exemple :
+
+```bash
+git checkout -b improve-add-customer
+```
+
+* Crée la branche `improve-add-customer`
+* Passe automatiquement sur cette branche
+* Tout ce que tu commites ensuite **sera sur cette branche**, pas sur `main`.
+
+💡 **Quand l’utiliser** :
+
+* Tu veux développer une nouvelle fonctionnalité
+* Tu veux améliorer un template, un style ou corriger un bug
+* Tu veux tester quelque chose sans casser le `main`
+
+---
+
+# 3️⃣ Utilisation pratique de toutes ces commandes ensemble
+
+Imaginons ton workflow typique pour ajouter un nouveau template :
+
+---
+
+### Étape 1 : Vérifier l’état actuel
+
+```bash
+git status
+```
+
+* Tu vois quels fichiers ont changé et si tu es sur `main`.
+
+---
+
+### Étape 2 : Créer une branche pour travailler
+
+```bash
+git checkout -b improve-add-customer
+```
+
+* Maintenant tu es sur une branche séparée, tu peux modifier le template sans toucher à `main`.
+
+---
+
+### Étape 3 : Ajouter tes modifications au commit
+
+```bash
+git add templates/add_customer.html
+```
+
+* Marque le fichier comme prêt à être commit.
+
+---
+
+### Étape 4 : Enregistrer le commit
+
+```bash
+git commit -m "New improved customer registration template"
+```
+
+* Git prend un **snapshot** de ton fichier et l’ajoute à l’historique sur cette branche.
+
+---
+
+### Étape 5 : Vérifier que tout est bien
+
+```bash
+git status
+```
+
+* Tu confirmes qu’il ne reste rien à ajouter.
+
+---
+
+### Étape 6 : Envoyer la branche sur GitHub
+
+```bash
+git push -u origin improve-add-customer
+```
+
+* La branche est maintenant sur GitHub
+* Tu peux partager ou ouvrir une **pull request** plus tard
+
+---
+
+### Étape 7 : Revenir sur `main` pour continuer autre chose
+
+```bash
+git checkout main
+```
+
+* Tu es maintenant sur la branche principale, **indépendante de tes modifications de la branche améliorée**
+* Tu peux continuer à travailler, committer et push comme d’habitude.
+
+---
+
+# 🔹 Résumé visuel du workflow
+
+```
+main (branche stable)
+  |
+  |-- git checkout -b improve-add-customer
+  |    -> travailler sur template
+  |    -> git add
+  |    -> git commit
+  |    -> git push
+  |
+  |-- git checkout main
+       -> continuer à travailler sur main
+```
+
+---
+
+# 🔹 Quand utiliser chaque commande
+
+| Commande                    | Quand l’utiliser                                               |
+| --------------------------- | -------------------------------------------------------------- |
+| `git status`                | Toujours avant un commit pour savoir ce qui a changé           |
+| `git add`                   | Quand tu veux préparer un fichier pour commit                  |
+| `git commit -m "..."`       | Quand tu veux enregistrer les changements dans l’historique    |
+| `git push`                  | Quand tu veux envoyer tes commits vers GitHub                  |
+| `git checkout -b <branche>` | Quand tu veux créer une nouvelle branche pour travailler isolé |
+| `git checkout <branche>`    | Quand tu veux basculer entre les branches                      |
+
+
+
+
+PB:
+env) PS E:\projets_Django\systeme_facturation\django_invoice> git checkout main 
+error: Your local changes to the following files would be overwritten by checkout:
+        templates/add_customer.html
+Please commit your changes or stash them before you switch branches.
+Aborting
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git status        
+On branch improve-add-customer
+Your branch is up to date with 'origin/improve-add-customer'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   fact_app/models.py
+        modified:   fact_app/urls.py
+        modified:   fact_app/views.py
+        modified:   templates/add_customer.html
+        modified:   templates/index.html
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        fact_app/notes/cmdgit.docx
+        fact_app/notes/get_post.docx
+        templates/add_invoice.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> 
+
+rps:
+Ah oui 👍 — c’est exactement ce que Git voulait te dire avec ce message :
+
+> `Your local changes to the following files would be overwritten by checkout`
+
+### En clair :
+
+* Tu es sur la branche `improve-add-customer`.
+* Tu as **des fichiers modifiés qui ne sont pas commités** (`models.py`, `views.py`, `templates/add_customer.html`…).
+* Si tu passes sur `main` maintenant, Git **perdrait tes modifications locales**.
+* Donc Git bloque le changement de branche pour **protéger ton travail**.
+
+---
+
+## 🔹 2 façons de résoudre ça
+
+### Option 1 : **Commit tes modifications sur la branche actuelle**
+
+1. Ajouter les fichiers au commit :
+
+```bash
+git add .
+```
+
+2. Commit avec un message clair :
+
+```bash
+git commit -m "Work in progress before switching to main"
+```
+
+3. Maintenant tu peux passer sur `main` :
+
+```bash
+git checkout main
+```
+
+---
+
+### Option 2 : **Mettre de côté tes modifications avec `stash`**
+
+* Si tu **ne veux pas commit maintenant**, mais juste changer de branche temporairement :
+
+```bash
+git stash
+```
+
+* Git mettra **tous tes changements locaux de côté**.
+* Tu peux maintenant changer de branche :
+
+```bash
+git checkout main
+```
+
+* Pour **récupérer tes changements** plus tard sur n’importe quelle branche :
+
+```bash
+git stash pop
+```
+
+💡 Astuce : `stash` est super pratique pour **changer de branche sans perdre ton travail en cours**.
+
+---
+
+### 🔹 Que faire dans ton cas
+
+Vu que tu as :
+
+* des fichiers modifiés (`models.py`, `views.py`, `add_customer.html`, `index.html`)
+* et des fichiers non suivis (`cmdgit.docx`, `get_post.docx`, `add_invoice.html`)
+
+Si tu veux passer sur `main` **tout en gardant ton travail sur `improve-add-customer`**, je te conseille :
+
+1. Stash temporaire :
+
+```bash
+git stash
+```
+
+2. Passer sur `main` :
+
+```bash
+git checkout main
+```
+
+3. Quand tu reviens sur `improve-add-customer` :
+
+```bash
+git checkout improve-add-customer
+git stash pop
+```
+
+
+
+
+TLPB:
+on\env\Scripts\Activate.ps1
+(env) PS E:\projets_Django\systeme_facturation> git add .
+fatal: not a git repository (or any of the parent directories): .git
+(env) PS E:\projets_Django\systeme_facturation> cd django_invoice
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git add .       
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git commit -m "a[main f536f9b] add new customer
+ 10 files changed, 698 insertions(+), 29 deletions(-)
+ create mode 100644 static/images/icon-yes.svg
+ create mode 100644 templates/add_customer.html
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git push        
+fatal: unable to access 'https://github.com/Vicens-a11/django-invoice.git/': Could not resolve host: github.com
+(env) PS E:\projets_Django\systeme_facturation\django_invoice>
+
+
+                                                               git push        
+Enumerating objects: 28, done.
+Counting objects: 100% (28/28), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (17/17), done.
+Writing objects: 100% (17/17), 7.06 KiB | 1.01 MiB/s, done.
+Total 17 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
+To https://github.com/Vicens-a11/django-invoice.git
+   8a93ec1..f536f9b  main -> main
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+        modified:   fact_app/views.py
+        modified:   templates/index.html
+
+  (use "git add <file>..." to include in what will be committed)
+        fact_app/notes/get_post.docx
+        templates/add_invoice.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git checkout -b improve-add-customer
+Switched to a new branch 'improve-add-customer'
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git add templates/add_customer.html
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git commit -m "New improved customer registration template"
+[improve-add-customer e7376f8] New improved customer registration template       
+ 1 file changed, 125 insertions(+), 71 deletions(-)
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git status        
+On branch improve-add-customer
+        modified:   fact_app/views.py
+        modified:   templates/add_customer.html
+        modified:   templates/index.html
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        fact_app/notes/get_post.docx
+        templates/add_invoice.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(env) PS E:\projets_Django\systeme_facturation\django_invoice>
+
+
+                                                               git push -u origin improve-add-customer
+Counting objects: 100% (7/7), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 1.20 KiB | 245.00 KiB/s, done.
+Total 4 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+remote:
+remote: Create a pull request for 'improve-add-customer' on GitHub by visiting:  
+remote:      https://github.com/Vicens-a11/django-invoice/pull/new/improve-add-customer
+remote:
+To https://github.com/Vicens-a11/django-invoice.git
+ * [new branch]      improve-add-customer -> improve-add-customer
+branch 'improve-add-customer' set up to track 'origin/improve-add-customer'.     
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git status        
+On branch improve-add-customer
+Your branch is up to date with 'origin/improve-add-customer'.
+
+Changes not staged for commit:
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   fact_app/models.py
+        modified:   fact_app/urls.py
+        modified:   fact_app/views.py
+        modified:   templates/add_customer.html
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        fact_app/notes/cmdgit.docx
+        fact_app/notes/get_post.docx
+        templates/add_invoice.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git checkout main 
+error: Your local changes to the following files would be overwritten by checkout:
+        templates/add_customer.html
+Please commit your changes or stash them before you switch branches.
+Aborting
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git status        
+On branch improve-add-customer
+Your branch is up to date with 'origin/improve-add-customer'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+        modified:   fact_app/models.py
+        modified:   fact_app/views.py
+        modified:   templates/add_customer.html
+        modified:   templates/index.html
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        fact_app/notes/cmdgit.docx
+        fact_app/notes/get_post.docx
+        templates/add_invoice.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git add .
+>>
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git commit -m "initial template add_customer"
+[improve-add-customer c5373a4] initial template add_customer
+ 8 files changed, 1817 insertions(+), 130 deletions(-)
+ create mode 100644 fact_app/notes/cmdgit.docx
+ create mode 100644 fact_app/notes/get_post.docx
+ create mode 100644 templates/add_invoice.html
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git checkout main
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> 
+
+
+
+RPS:
+
+Ok Kentio 😄, je vais te résumer **exactement tout ce que tu as fait et ce que Git a fait pour toi** étape par étape, et pourquoi tu as eu certains messages comme “local changes would be overwritten”.
+
+---
+
+## 🔹 Étape par étape de ton historique
+
+### 1️⃣ Activation de ton environnement Python
+
+```powershell
+on\env\Scripts\Activate.ps1
+```
+
+* Tu actives ton environnement virtuel `env`.
+* Ça permet à Python et Django d’utiliser les bonnes dépendances.
+
+---
+
+### 2️⃣ Premier `git add .` dans le mauvais dossier
+
+```powershell
+git add .
+fatal: not a git repository
+```
+
+* Tu étais dans `E:\projets_Django\systeme_facturation` qui **n’était pas encore un dépôt Git**.
+* Git t’indique qu’il n’y a pas de `.git` dans ce dossier.
+* ✅ Solution : entrer dans le dossier correct `django_invoice`.
+
+---
+
+### 3️⃣ Entrée dans le dépôt correct
+
+```powershell
+cd django_invoice
+git add .
+git commit -m "a[main f536f9b] add new customer"
+```
+
+* Tu ajoutes tous les fichiers modifiés/nouveaux au staging (`git add .`)
+* Puis tu fais un commit sur `main` avec ton message.
+* Résultat : **10 fichiers commités** (templates, images, etc.)
+* Git enregistre l’état actuel de ces fichiers sur la branche `main`.
+
+---
+
+### 4️⃣ Push sur GitHub
+
+```powershell
+git push
+```
+
+* Première tentative échoue : `Could not resolve host` → problème réseau
+* Deuxième tentative réussit → commits envoyés sur `origin/main`
+* Tes fichiers sont maintenant sauvegardés sur GitHub.
+
+---
+
+### 5️⃣ Vérification de l’état
+
+```powershell
+git status
+```
+
+* Git te montre les fichiers modifiés mais **non commités** (`views.py`, `index.html`)
+* Et les fichiers **non suivis** (`get_post.docx`, `add_invoice.html`)
+
+---
+
+### 6️⃣ Création d’une branche pour améliorer le template
+
+```powershell
+git checkout -b improve-add-customer
+```
+
+* Nouvelle branche créée **à partir de main**
+* Tu peux maintenant travailler sur `add_customer.html` **sans toucher à main**
+
+---
+
+### 7️⃣ Commit du template amélioré
+
+```powershell
+git add templates/add_customer.html
+git commit -m "New improved customer registration template"
+```
+
+* Tu commits **la nouvelle version du template**
+* Branch `improve-add-customer` contient maintenant cette version améliorée
+
+---
+
+### 8️⃣ Push de la branche distante
+
+```powershell
+git push -u origin improve-add-customer
+```
+
+* Crée la branche `improve-add-customer` sur GitHub
+* `-u` lie ta branche locale à la branche distante → futur push/pull simplifié
+* Git te propose même de créer une Pull Request sur GitHub.
+
+---
+
+### 9️⃣ Ajout des autres fichiers restants et commit
+
+```powershell
+git add .
+git commit -m "initial template add_customer"
+```
+
+* Commit de tous les autres fichiers modifiés et non suivis :
+
+  * notes (`cmdgit.docx`, `get_post.docx`)
+  * template `add_invoice.html`
+  * fichiers Django (`views.py`, `urls.py`, etc.)
+* Branch `improve-add-customer` est maintenant **à jour et complète**.
+
+---
+
+### 🔟 Tentative de retour sur main
+
+```powershell
+git checkout main
+```
+
+* Git bloque car tu avais **des fichiers modifiés non commités** (`add_customer.html`)
+* ⚠️ Git ne veut pas écraser tes modifications locales → message “Your local changes would be overwritten”
+
+---
+
+### 1️⃣1️⃣ Résolution : commit final et checkout
+
+```powershell
+git add .
+git commit -m "initial template add_customer"
+git checkout main
+```
+
+* Tu as **commit toutes les modifications restantes**
+* Maintenant tu peux basculer sur `main` sans problème
+* `main` est propre et à jour avec GitHub (`working tree clean`)
+
+---
+
+## 🔹 Résumé visuel de ce workflow
+
+```
+main  ──●────●────●─────────────> (push origin/main)
+        │    │
+        │    └─ création de branche improve-add-customer
+        │
+improve-add-customer ──●────●───────────> (push origin/improve-add-customer)
+        ↑
+    commit template amélioré et autres fichiers
+```
+
+* Tu as travaillé **proprement avec des branches**
+* Chaque fonctionnalité ou amélioration a sa branche
+* Tu as pushé chaque branche sur GitHub
+* Tu as appris à gérer les **modifications non commités** avant de changer de branche
+
+---
+
+## 🔹 Les leçons importantes
+
+1. **Toujours vérifier `git status`** avant de changer de branche
+2. **Ne jamais travailler directement sur `main`**
+3. **Commit ou stash** les fichiers modifiés pour changer de branche
+4. **Créer des branches par fonctionnalité** pour éviter les conflits
+5. **Utiliser `git push -u origin <branch>`** la première fois pour lier local ↔ distant
+
+

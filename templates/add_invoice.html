@@ -1,0 +1,78 @@
+{%  extends 'base.html' %}
+
+{% block content %}
+<br><br><br><br>
+
+<h1 class="text-capitalize text-center mx-10 bg-dark text-white">Register a new Invoice</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="form-row">
+
+        <div class="form-group col-md-12">
+            <label for="customer"> Customer </label>
+            <select name="customer" id="customer" class="form-control">
+                <option >Choose the customer...</option>
+                {% for customer in customers %}
+                <option value="{{ customer.id }}">{{forloop.counter}} {{ customer.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    
+        <div class="form-row">
+
+        <div class="form-group col-md-12">
+            <label for="customer"> Customer </label>
+            <select name="customer" id="customer" class="form-control">
+                <option >Choose invoice type...</option>
+                <option value="R">RECEIPT</option>
+                <option value="P">PROFORMA INVOICE</option>
+                <option value="I">INVOICE</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="wrapper">
+        <div class="form-row">
+
+            <div class="form-group col-md-4">
+                <label  for="article-1"> Item name</label>
+                <input required type="text" required class="form-control" id="article-1" name="article" >
+            </div>
+
+            <div class="form-group col-md-2">
+                <label  for="qty-1"> Quantity</label>
+                <input required type="number" min="1" step="0.1" required class="form-control" id="qty-1" name="qty" >
+            </div>
+
+            <div class="form-group col-md-3">
+                <label  for="unit-1"> Unit Price</label>
+                <input required type="number" min="1" step="0.1" required class="form-control" id="unit-1" name="unit" >
+            </div>
+
+            <div class="form-group col-md-3">
+                <label  for="total-a-1"> Total</label>
+                <input required type="number" min="1" step="0.1" required class="form-control" id="total-a-1" name="total-a" readonly >
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="total"> Total </label>
+            <input type="number" min="1" step="0.1" required class="form-control" id="total" name="total" placeholder="Total amount of the invoice" rreadonly>
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
+        <label for="comment"> Comments </label>
+        <textarea name="comment" id="comment" class="form-control" rows="4" placeholder="Additional information about the invoice..." rows="1"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <br><br>
+</form>
+{% endblock content %}

@@ -1,0 +1,305 @@
+Parfait Kentio 😎, je vais te créer un **workflow Git/GitHub complet et pratique pour ton projet Django**, étape par étape, avec toutes les commandes, bonnes pratiques et conseils pour **ne plus jamais être bloqué**.
+
+---
+
+# 🔹 Workflow Git/GitHub pour projets Django
+
+---
+
+## 1️⃣ Initialiser et configurer le dépôt
+
+Si ton projet n’est pas encore un dépôt Git :
+
+```bash
+# Dans le dossier du projet
+git init
+
+# Ajouter tous les fichiers au suivi Git
+git add .
+
+# Faire le premier commit
+git commit -m "Initial commit"
+
+# Ajouter le dépôt distant GitHub
+git remote add origin https://github.com/<username>/<repo>.git
+
+# Envoyer le commit initial
+git push -u origin main
+```
+
+**Conseil :**
+
+* `-u` lie ta branche locale à la branche distante → plus besoin de préciser `origin main` à chaque push/pull.
+
+---
+
+## 2️⃣ Travailler avec des branches
+
+### Créer une branche pour chaque tâche/fonctionnalité
+
+```bash
+# Crée et bascule sur la branche
+git checkout -b nom-de-la-branche
+```
+
+Exemples :
+
+* `feature-add-invoice` → ajouter un formulaire de facture
+* `improve-add-customer` → améliorer le formulaire client
+* `bugfix-index-view` → corriger un bug sur la page d’accueil
+
+**Pourquoi ?**
+
+* Main reste **propre et stable**
+* Les branches isolent chaque modification
+
+---
+
+### Vérifier l’état avant de travailler
+
+```bash
+git status
+```
+
+* Montre les fichiers modifiés, non suivis ou en staging.
+* Toujours vérifier pour éviter de perdre du travail.
+
+---
+
+## 3️⃣ Ajouter et committer les changements
+
+```bash
+# Ajouter un fichier spécifique
+git add chemin/fichier.py
+
+# Ajouter tous les fichiers modifiés
+git add .
+
+# Commit avec un message clair
+git commit -m "Add improved customer registration form"
+```
+
+**Bonnes pratiques pour le message de commit :**
+
+* Commence par un verbe à l’infinitif : Add, Fix, Update, Improve
+* Décris le **quoi et pourquoi**, pas le comment
+
+---
+
+## 4️⃣ Push de la branche sur GitHub
+
+```bash
+# Première fois pour la branche
+git push -u origin nom-de-la-branche
+
+# Les fois suivantes
+git push
+```
+
+* GitHub pourra recevoir tes commits pour **backup ou Pull Request**.
+
+---
+
+## 5️⃣ Revenir sur main ou changer de branche
+
+```bash
+# Vérifie que tout est commit
+git status
+
+# Si tout est commit → safe
+git checkout main
+
+# Si modifications non commités
+git stash        # met de côté tes changements
+git checkout main
+git stash pop    # récupère tes changements si nécessaire
+```
+
+---
+
+## 6️⃣ Mettre à jour ta branche avant fusion
+
+Avant de fusionner dans main, assure-toi que ta branche est à jour :
+
+```bash
+git checkout nom-de-la-branche
+git pull origin main
+```
+
+* Évite les conflits lors du merge.
+* Résout les conflits **avant de fusionner**.
+
+---
+
+## 7️⃣ Fusionner dans main
+
+```bash
+git checkout main
+git pull               # récupère les derniers changements distants
+git merge nom-de-la-branche
+```
+
+* Résoudre les conflits si nécessaire
+* Commit automatique après fusion
+
+---
+
+## 8️⃣ Supprimer une branche après fusion
+
+```bash
+# Locale
+git branch -d nom-de-la-branche
+
+# Distante
+git push origin --delete nom-de-la-branche
+```
+
+* Garde ton dépôt propre
+* Les fonctionnalités terminées n’encombrent plus les branches
+
+---
+
+## 9️⃣ Gestion des fichiers non suivis ou modifiés
+
+* Annuler un fichier modifié :
+
+```bash
+git restore fichier.py
+```
+
+* Annuler tous les changements non commités :
+
+```bash
+git restore .
+```
+
+* Mettre de côté temporairement les changements (stash) :
+
+```bash
+git stash
+git stash pop
+```
+
+---
+
+## 🔹 Mini workflow quotidien pour ton projet Django
+
+1. `git checkout main` → mettre à jour la branche principale
+2. `git pull` → récupérer les derniers changements distants
+3. `git checkout -b nouvelle-branche` → créer une branche pour la tâche
+4. Modifier les fichiers
+5. `git add .` → ajouter les changements
+6. `git commit -m "Message clair"` → commit logique
+7. `git push -u origin nouvelle-branche` → sauvegarder sur GitHub
+8. Tester, améliorer, commit & push autant que nécessaire
+9. Fusionner la branche dans `main` via `merge`
+10. Supprimer la branche locale et distante après fusion
+
+---
+
+## 🔹 Conseils professionnels
+
+* **Commit par fonctionnalité**, pas en vrac
+* **Ne jamais travailler directement sur `main`**
+* **Push régulièrement** pour éviter pertes de travail
+* **Stash** pour changer de branche sans perdre les modifications
+* **Nomme tes branches clairement** → facile à suivre
+
+
+
+
+Parfait Kentio 😄, voici un **schéma visuel complet du workflow Git/GitHub**, spécialement adapté à ton projet Django et à tes branches/templates.
+
+---
+
+```
+                 ┌───────────────┐
+                 │     main      │  ← branche stable / production
+                 └───────┬───────┘
+                         │
+                  git pull origin main
+                         │
+           ┌─────────────┴─────────────┐
+           │                           │
+  git checkout -b feature-X       git checkout -b improve-Y
+   (nouvelle branche)               (nouvelle branche)
+           │                           │
+     Travailler sur                  Travailler sur
+  fonctionnalité/bug                 template/feature
+           │                           │
+    git add + git commit           git add + git commit
+           │                           │
+    git push -u origin             git push -u origin
+       feature-X                     improve-Y
+           │                           │
+    (PR sur GitHub)                 (PR sur GitHub)
+           │                           │
+           └─────────────┬─────────────┘
+                         │
+                 git checkout main
+                 git pull origin main
+                         │
+                 git merge feature-X
+                 git merge improve-Y
+                         │
+                 git push origin main
+                         │
+            ┌─────────────┴─────────────┐
+            │ branches terminées → delete│
+            └───────────────────────────┘
+```
+
+---
+
+### 🔹 Légende / Explications
+
+1. **`main`** :
+
+   * Branche stable, toujours fonctionnelle, utilisée pour la production ou tests finaux.
+   * Ne jamais coder directement dessus.
+
+2. **Branches de fonctionnalité (`feature-X`, `improve-Y`)** :
+
+   * Pour chaque tâche, créer une branche séparée.
+   * Permet de travailler sans casser `main`.
+
+3. **Cycle de travail sur une branche** :
+
+   * `git add` → ajoute les fichiers modifiés
+   * `git commit` → sauvegarde localement avec un message clair
+   * `git push -u origin branch` → envoie sur GitHub
+   * Pull request (PR) sur GitHub si besoin de review
+
+4. **Fusion dans `main`** :
+
+   * Mettre à jour `main` avec `git pull origin main`
+   * Merge de la branche fonctionnelle : `git merge feature-X`
+   * Résoudre les conflits si besoin
+   * Push final sur GitHub
+
+5. **Supprimer les branches terminées** :
+
+   * `git branch -d branch-local`
+   * `git push origin --delete branch-remote`
+
+6. **Stash** :
+
+   * Si tu as des modifications en cours et que tu veux changer de branche sans commit :
+
+     ```bash
+     git stash        # met de côté les modifications
+     git checkout main
+     git stash pop    # récupère les modifications
+     ```
+
+---
+
+💡 **Best practices récap :**
+
+* Commit par fonctionnalité → messages clairs
+* Push souvent → backup et collaboration
+* Ne jamais coder directement sur main
+* Travailler avec des branches → workflow propre et sûr
+* Stash si changement de branche urgent
+
+

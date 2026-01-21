@@ -1,0 +1,371 @@
+Parfait Kentio 😎, voici une **Git cheat sheet complète et pratique**, organisée comme un **workflow prêt à suivre pour ton projet Django**. Tu peux la garder ouverte et l’utiliser à chaque fois que tu bosses avec Git/GitHub.
+
+---
+
+# 🔹 Git Cheat Sheet pour projet Django
+
+---
+
+## 1️⃣ Préparer le dépôt
+
+```bash
+# Initialiser Git dans ton projet
+git init
+
+# Vérifier que Git est actif
+git status
+
+# Ajouter tous les fichiers au suivi
+git add .
+
+# Premier commit
+git commit -m "Initial commit"
+
+# Ajouter le dépôt distant
+git remote add origin https://github.com/<username>/<repo>.git
+
+# Envoyer le commit initial
+git push -u origin main
+```
+
+---
+
+## 2️⃣ Créer et basculer sur une branche
+
+```bash
+# Créer une branche et basculer dessus
+git checkout -b nom-de-la-branche
+```
+
+Exemples :
+
+* `feature-add-invoice` → formulaire de facture
+* `improve-add-customer` → améliorer le template client
+
+---
+
+## 3️⃣ Vérifier l’état
+
+```bash
+# Voir les fichiers modifiés, en staging, non suivis
+git status
+```
+
+* Toujours faire `git status` avant de changer de branche ou push.
+
+---
+
+## 4️⃣ Ajouter et commit
+
+```bash
+# Ajouter un fichier spécifique
+git add chemin/fichier.py
+
+# Ajouter tous les fichiers modifiés
+git add .
+
+# Commit avec un message clair
+git commit -m "Add improved customer registration form"
+```
+
+**Tips message commit :**
+
+* Commence par un verbe : Add, Fix, Update, Improve
+* Décris le **quoi et pourquoi**, pas le comment
+
+---
+
+## 5️⃣ Envoyer sur GitHub
+
+```bash
+# Première fois pour la branche
+git push -u origin nom-de-la-branche
+
+# Les fois suivantes
+git push
+```
+
+* `-u` = lie ta branche locale à la branche distante pour futurs push/pull simples
+
+---
+
+## 6️⃣ Mettre à jour ta branche depuis main
+
+Avant de fusionner :
+
+```bash
+git checkout nom-de-la-branche
+git pull origin main
+```
+
+* Évite les conflits sur la fusion
+* Résoudre les conflits si nécessaire
+
+---
+
+## 7️⃣ Changer de branche ou revenir à main
+
+```bash
+# Vérifier d’abord les changements
+git status
+
+# Si tout est commit
+git checkout main
+
+# Si tu as des changements non commités → stasher
+git stash
+git checkout main
+git stash pop   # récupérer les changements après
+```
+
+---
+
+## 8️⃣ Fusionner dans main
+
+```bash
+git checkout main
+git pull origin main        # mettre main à jour
+git merge nom-de-la-branche # fusion
+git push origin main        # envoyer sur GitHub
+```
+
+* Toujours résoudre les conflits avant push
+
+---
+
+## 9️⃣ Supprimer les branches terminées
+
+```bash
+# Supprimer branche locale
+git branch -d nom-de-la-branche
+
+# Supprimer branche distante
+git push origin --delete nom-de-la-branche
+```
+
+* Nettoie ton projet et GitHub
+
+---
+
+## 🔹 Gestion des fichiers
+
+```bash
+# Annuler les changements dans un fichier
+git restore fichier.py
+
+# Annuler tous les changements non commités
+git restore .
+
+# Mettre de côté temporairement les changements
+git stash
+git stash pop   # récupérer les changements
+```
+
+---
+
+## 🔹 Bonnes pratiques pour ton projet Django
+
+1. Toujours **commiter par fonctionnalité**
+2. **Push régulièrement** → évite pertes de travail
+3. **Travailler sur des branches**, jamais directement sur main
+4. Nommer branches clairement (`feature-`, `improve-`, `bugfix-`)
+5. Faire un `git pull` avant de merger pour éviter les conflits
+6. **Stasher** si tu dois changer de branche rapidement
+
+---
+
+Avec ça, tu peux maintenant :
+
+* Créer une nouvelle branche pour n’importe quelle tâche
+* Travailler dessus et push sans toucher à main
+* Fusionner proprement dans main
+* Revenir à une branche précédente sans perdre tes changements
+
+
+
+
+
+Parfait Kentio 😎, voici une **Git cheat sheet complète et pratique**, organisée comme un **workflow prêt à suivre pour ton projet Django**. Tu peux la garder ouverte et l’utiliser à chaque fois que tu bosses avec Git/GitHub.
+
+---
+
+# 🔹 Git Cheat Sheet pour projet Django
+
+---
+
+## 1️⃣ Préparer le dépôt
+
+```bash
+# Initialiser Git dans ton projet
+git init
+
+# Vérifier que Git est actif
+git status
+
+# Ajouter tous les fichiers au suivi
+git add .
+
+# Premier commit
+git commit -m "Initial commit"
+
+# Ajouter le dépôt distant
+git remote add origin https://github.com/<username>/<repo>.git
+
+# Envoyer le commit initial
+git push -u origin main
+```
+
+---
+
+## 2️⃣ Créer et basculer sur une branche
+
+```bash
+# Créer une branche et basculer dessus
+git checkout -b nom-de-la-branche
+```
+
+Exemples :
+
+* `feature-add-invoice` → formulaire de facture
+* `improve-add-customer` → améliorer le template client
+
+---
+
+## 3️⃣ Vérifier l’état
+
+```bash
+# Voir les fichiers modifiés, en staging, non suivis
+git status
+```
+
+* Toujours faire `git status` avant de changer de branche ou push.
+
+---
+
+## 4️⃣ Ajouter et commit
+
+```bash
+# Ajouter un fichier spécifique
+git add chemin/fichier.py
+
+# Ajouter tous les fichiers modifiés
+git add .
+
+# Commit avec un message clair
+git commit -m "Add improved customer registration form"
+```
+
+**Tips message commit :**
+
+* Commence par un verbe : Add, Fix, Update, Improve
+* Décris le **quoi et pourquoi**, pas le comment
+
+---
+
+## 5️⃣ Envoyer sur GitHub
+
+```bash
+# Première fois pour la branche
+git push -u origin nom-de-la-branche
+
+# Les fois suivantes
+git push
+```
+
+* `-u` = lie ta branche locale à la branche distante pour futurs push/pull simples
+
+---
+
+## 6️⃣ Mettre à jour ta branche depuis main
+
+Avant de fusionner :
+
+```bash
+git checkout nom-de-la-branche
+git pull origin main
+```
+
+* Évite les conflits sur la fusion
+* Résoudre les conflits si nécessaire
+
+---
+
+## 7️⃣ Changer de branche ou revenir à main
+
+```bash
+# Vérifier d’abord les changements
+git status
+
+# Si tout est commit
+git checkout main
+
+# Si tu as des changements non commités → stasher
+git stash
+git checkout main
+git stash pop   # récupérer les changements après
+```
+
+---
+
+## 8️⃣ Fusionner dans main
+
+```bash
+git checkout main
+git pull origin main        # mettre main à jour
+git merge nom-de-la-branche # fusion
+git push origin main        # envoyer sur GitHub
+```
+
+* Toujours résoudre les conflits avant push
+
+---
+
+## 9️⃣ Supprimer les branches terminées
+
+```bash
+# Supprimer branche locale
+git branch -d nom-de-la-branche
+
+# Supprimer branche distante
+git push origin --delete nom-de-la-branche
+```
+
+* Nettoie ton projet et GitHub
+
+---
+
+## 🔹 Gestion des fichiers
+
+```bash
+# Annuler les changements dans un fichier
+git restore fichier.py
+
+# Annuler tous les changements non commités
+git restore .
+
+# Mettre de côté temporairement les changements
+git stash
+git stash pop   # récupérer les changements
+```
+
+---
+
+## 🔹 Bonnes pratiques pour ton projet Django
+
+1. Toujours **commiter par fonctionnalité**
+2. **Push régulièrement** → évite pertes de travail
+3. **Travailler sur des branches**, jamais directement sur main
+4. Nommer branches clairement (`feature-`, `improve-`, `bugfix-`)
+5. Faire un `git pull` avant de merger pour éviter les conflits
+6. **Stasher** si tu dois changer de branche rapidement
+
+---
+
+Avec ça, tu peux maintenant :
+
+* Créer une nouvelle branche pour n’importe quelle tâche
+* Travailler dessus et push sans toucher à main
+* Fusionner proprement dans main
+* Revenir à une branche précédente sans perdre tes changements
+
+
