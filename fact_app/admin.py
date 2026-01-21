@@ -69,7 +69,7 @@ class InvoiceAdmin(admin.ModelAdmin):
     search_fields = ('customer__name',)  # Recherche par nom de client
     
     ordering = ('-invoice_date_time',)
-   
+    
     readonly_fields = ('invoice_date_time', 'last_updated_date')
 
 # class AdminInvoice(admin.ModelAdmin):

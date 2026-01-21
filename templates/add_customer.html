@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br><br>
+
+<h1 class="text-capitalize text-center mx-10 bg-dark text-white">Register a new Customer</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="form-row">
+
+        <div class="form-group col-md-6">
+            <label for="name"> Name </label>
+            <input type="text" required class="form-control" id="name" name="name" placeholder="Customer First and Last  Name">
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="email"> Email </label>
+            <input type="email" required class="form-control" id="email" name="email" placeholder="Customer Email">
+        </div>
+        <div class="form-group col-md-2">
+            <label for="phone"> Phone </label>
+            <input type="telephone" required class="form-control" id="phone" name="phone" placeholder="+237 6XX XXX XXX">
+        </div>
+        
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="sex">Sex</label>
+            <select name="sex" id="sex" class="form-control">
+                <option >Choose the gender...</option>
+                <option value="M">Feminine</option>
+                <option value="F">Male</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="age">Age</label>
+            <select name="age" id="age" class="form-control">
+                <option>Choose the age range...</option>
+                <option value="0-15">0-15</option>
+                <option value="16-25">16-25</option>
+                <option value="26-50">26-50</option>
+                <option value="51-80">51-80</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group col-md-6">
+            <label for="address">Address</label>
+            <input name="address" type="text" required class="form-control" id="address" placeholder="Customer address">
+        </div>
+    </div>
+
+    <div class="form-row">
+
+        
+        <div class="form-group col-md-4">
+            <label for="city"> City </label>
+            <input type="city" required class="form-control" id="city" name="city" placeholder="Customer city">
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="zip"> Zip code </label>
+            <input type="zip" required class="form-control" id="zip" name="zip" placeholder="Customer zip code">
+        </div>
+
+    </div>
+    <br>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+{% endblock content%}

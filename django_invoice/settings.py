@@ -6,6 +6,25 @@ from pathlib import Path
 # Chemin absolu vers la racine du projet (dossier contenant manage.py)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+# ------------------------------------------
+# Messages
+# ------------------------------------------
+
+try:
+    from django.contrib.messages import constants as messages
+    MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-info',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',# Utilisation de 'alert-warning' pour les avertissements
+        messages.ERROR: 'alert-danger',  # Utilisation de 'alert-danger' pour les erreurs
+    }   
+except Exception as e:
+    pass
+
+
+
 # ------------------------------------------
 # Secret & Debug
 # ------------------------------------------
@@ -25,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'fact_app',  # ton application principale
+    
+    'django_bootstrap5', # pour l'intégration de Bootstrap 5
 ]
 
 # ------------------------------------------

@@ -1,33 +1,192 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 {% load static %}
+{% load django_bootstrap5 %}
+
 <html lang="fr">
-<head>  
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{% block title %}Système de Facturation{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}"> 
+
+    <!-- CSS perso -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+    <!-- Bootstrap CSS -->
+    {% bootstrap_css %}
+
     {% block extra_head %}{% endblock %}
 </head>
-<body>
-    <header>
-        <h1>Système de Facturation</h1>
-        <nav>
-            {% comment %}
-            <ul>
-                 <li><a href="{% url 'home' %}">Accueil</a></li> 
-                <li><a href="{% url 'invoices' %}">Factures</a></li>
-                <li><a href="{% url 'clients' %}">Clients</a></li>
-                <li><a href="{% url 'products' %}">Produits</a></li>
-            </ul>{% endcomment %}
-        </nav>
-    </header>
-    
-    <main>
+
+<body class="d-flex flex-column min-vh-100">
+
+<!-- HEADER / NAVBAR -->
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+
+            <!-- Brand -->
+            <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+                INVOICE SYSTEM
+            </a>
+
+            <!-- Mobile toggle -->
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar content -->
+            <div class="collapse navbar-collapse" id="mainNavbar">
+
+                <!-- Left menu -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <!-- Language -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           role="button"
+                           data-bs-toggle="dropdown">
+                            Languages
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">English</a></li>
+                            <li><a class="dropdown-item" href="#">French</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Options -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           role="button"
+                           data-bs-toggle="dropdown">
+                            Options
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'add_customer' %}">Add Customer</a></li>
+                            <li><a class="dropdown-item" href="#">Add Admin</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Statistics</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- Search -->
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2"
+                           type="search"
+                           placeholder="Search"
+                           aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">
+                        Search
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="wrapper">
+        <br>
+        {% for message in messages %}
+        <div class="alert {{message.tags}} alert.dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" arial-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message|safe }}
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="flex-fill">
+    <div class="container py-4">
         {% block content %}{% endblock %}
-    </main>
-    
-    <footer>
-        <p>&copy; 2024 Système de Facturation. Tous droits réservés.</p>
-    </footer>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-dark text-white mt-auto">
+    <div class="container py-5">
+
+        <div class="row">
+
+            <!-- Brand -->
+            <div class="col-md-4 mb-4">
+                <h5 class="fw-bold">Invoice System</h5>
+                <p class="text-secondary">
+                    Application de gestion et de facturation professionnelle
+                    pour les entreprises modernes.
+                </p>
+            </div>
+
+            <!-- Links -->
+            <div class="col-md-2 mb-4">
+                <h6 class="text-uppercase fw-bold">Produit</h6>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-secondary text-decoration-none">Factures</a></li>
+                    <li><a href="#" class="text-secondary text-decoration-none">Clients</a></li>
+                    <li><a href="#" class="text-secondary text-decoration-none">Statistiques</a></li>
+                </ul>
+            </div>
+
+            <!-- Company -->
+            <div class="col-md-3 mb-4">
+                <h6 class="text-uppercase fw-bold">Entreprise</h6>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-secondary text-decoration-none">À propos</a></li>
+                    <li><a href="#" class="text-secondary text-decoration-none">Mentions légales</a></li>
+                    <li><a href="#" class="text-secondary text-decoration-none">Confidentialité</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="col-md-3 mb-4">
+                <h6 class="text-uppercase fw-bold">Contact</h6>
+                <p class="text-secondary mb-1">support@invoice-system.com</p>
+                <p class="text-secondary">+237 680 358 969</p>
+            </div>
+
+        </div>
+
+        <hr class="border-secondary">
+
+        <div class="text-center text-secondary">
+            
+        <p class="mb-0">
+            {% if LANGUAGE_CODE == 'fr' %}
+                &copy; 2024 Système de Facturation — Tous droits réservés
+            {% else %}
+                &copy; 2024 Invoice System — All rights reserved
+            {% endif %}
+        </p>
+
+
+        </div>
+
+    </div>
+</footer>
+
+
+
+<!-- Bootstrap JS -->
+{% bootstrap_javascript %}
+
+<!-- JS perso -->
+<script src="{% static 'js/scripts.js' %}"></script>
+
+{% block extra_scripts %}{% endblock %}
+
 </body>
-</html>        
+</html>
