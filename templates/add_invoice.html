@@ -1,78 +1,142 @@
-{%  extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-<br><br><br><br>
 
-<h1 class="text-capitalize text-center mx-10 bg-dark text-white">Register a new Invoice</h1>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
 
-<form method="post">
-    {% csrf_token %}
+            <!-- Titre -->
+            <h1 class="text-center text-white bg-dark py-3 rounded mb-4">
+                Register a New Invoice
+            </h1>
 
-    <div class="form-row">
+            <!-- Formulaire -->
+            <form method="post" class="card shadow p-4">
+                {% csrf_token %}
 
-        <div class="form-group col-md-12">
-            <label for="customer"> Customer </label>
-            <select name="customer" id="customer" class="form-control">
-                <option >Choose the customer...</option>
-                {% for customer in customers %}
-                <option value="{{ customer.id }}">{{forloop.counter}} {{ customer.name }}</option>
-                {% endfor %}
-            </select>
+                <!-- Customer & Invoice Type -->
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-6 mb-3">
+                        <label for="customer" class="form-label mb-1 fw-semibold">Customer</label>
+                        <select name="customer" id="customer" class="form-control" required>
+                            <option value="" disabled selected>Choose the customer...</option>
+                            {% for customer in customers %}
+                            <option value="{{ customer.id }}">{{ forloop.counter }}. {{ customer.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6 mb-3">
+                        <label for="invoice_type" class="form-label mb-1 fw-semibold">Invoice Type</label>
+                        <select name="invoice_type" id="invoice_type" class="form-control" required>
+                            <option value="" disabled selected>Choose invoice type...</option>
+                            <option value="R">RECEIPT</option>
+                            <option value="P">PROFORMA INVOICE</option>
+                            <option value="I">INVOICE</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Items -->
+                <div id="wrapper">
+                    <div class="form-row mb-3">
+                        <div class="form-group col-md-4 mb-3">
+                            <label for="article-1" class="form-label mb-1 fw-semibold">Item Name</label>
+                            <input type="text" class="form-control" id="article-1" name="article" placeholder="Enter item name" required>
+                        </div>
+
+                        <div class="form-group col-md-2 mb-3">
+                            <label for="qty-1" class="form-label mb-1 fw-semibold">Quantity</label>
+                            <input type="number" min="1" step="0.1" class="form-control" id="qty-1" name="qty" placeholder="0" required>
+                        </div>
+
+                        <div class="form-group col-md-3 mb-3">
+                            <label for="unit-1" class="form-label mb-1 fw-semibold">Unit Price</label>
+                            <input type="number" min="1" step="0.1" class="form-control" id="unit-1" name="unit" placeholder="0.00" required>
+                        </div>
+
+                        <div class="form-group col-md-3 mb-3">
+                            <label for="total-a-1" class="form-label mb-1 fw-semibold">Total</label>
+                            <input type="number" min="1" step="0.1" class="form-control" id="total-a-1" name="total_a" placeholder="0.00" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invoice Total -->
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        <label for="total" class="form-label mb-1 fw-semibold">Total Amount</label>
+                        <input type="number" min="1" step="0.1" class="form-control" id="total" name="total" placeholder="Total amount of the invoice" readonly required>
+                    </div>
+                </div>
+
+                <!-- Comments -->
+                <div class="form-group mb-3">
+                    <label for="comment" class="form-label mb-1 fw-semibold">Comments</label>
+                    <textarea name="comment" id="comment" class="form-control" rows="4" placeholder="Additional information about the invoice..."></textarea>
+                </div>
+
+                <!-- Submit -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary px-5">Save Invoice</button>
+                </div>
+
+                <!-- bouton ajouter article -->
+                <div class=" row text-center mt-4">
+                    <button type="button" class="btn btn-outline-danger px-5 w-50 col-md-4" id="btn-add">Add a new Item line</button>
+                    <button type="button" class="btn btn-outline-warning px-5 w-50 col-md-4" id="btn-remove">Remove last Item line</button>
+                </div>
+
+            </form>
         </div>
     </div>
-    
-        <div class="form-row">
+</div>
 
-        <div class="form-group col-md-12">
-            <label for="customer"> Customer </label>
-            <select name="customer" id="customer" class="form-control">
-                <option >Choose invoice type...</option>
-                <option value="R">RECEIPT</option>
-                <option value="P">PROFORMA INVOICE</option>
-                <option value="I">INVOICE</option>
-            </select>
-        </div>
-    </div>
 
-    <div id="wrapper">
-        <div class="form-row">
 
-            <div class="form-group col-md-4">
-                <label  for="article-1"> Item name</label>
-                <input required type="text" required class="form-control" id="article-1" name="article" >
-            </div>
 
-            <div class="form-group col-md-2">
-                <label  for="qty-1"> Quantity</label>
-                <input required type="number" min="1" step="0.1" required class="form-control" id="qty-1" name="qty" >
-            </div>
 
-            <div class="form-group col-md-3">
-                <label  for="unit-1"> Unit Price</label>
-                <input required type="number" min="1" step="0.1" required class="form-control" id="unit-1" name="unit" >
-            </div>
+<script type="text/javascript">
+    $(document).on('click', '#btn-add', function(){
+        var number = $('#wrapper .form-row').children().length + 1;
 
-            <div class="form-group col-md-3">
-                <label  for="total-a-1"> Total</label>
-                <input required type="number" min="1" step="0.1" required class="form-control" id="total-a-1" name="total-a" readonly >
-            </div>
+        let formAdd = `  <div class="form-row mb-3">
+                        <div class="form-group col-md-4 mb-3">
+                            <label for="article-$(number)" class="form-label mb-1 fw-semibold">#$(number) Item Name</label>
+                            <input type="text" class="form-control" id="article-$(number)" name="article" placeholder="Enter item name" required>
+                        </div>
 
-        </div>
-    </div>
+                        <div class="form-group col-md-2 mb-3">
+                            <label for="qty-$(number)" class="form-label mb-1 fw-semibold">Quantity</label>
+                            <input type="number" min="1" step="0.1" class="form-control" id="qty-$(number)" name="qty" placeholder="0" required>
+                        </div>
 
-    <div class="form-row">
-        <div class="form-group col-md-12">
-            <label for="total"> Total </label>
-            <input type="number" min="1" step="0.1" required class="form-control" id="total" name="total" placeholder="Total amount of the invoice" rreadonly>
-        </div>
-    </div>
+                        <div class="form-group col-md-3 mb-3">
+                            <label for="unit-$(number)" class="form-label mb-1 fw-semibold">Unit Price</label>
+                            <input type="number" min="1" step="0.1" class="form-control" id="unit-$(number)" name="unit" placeholder="0.00" required>
+                        </div>
 
-    <div class="form-group col-md-12">
-        <label for="comment"> Comments </label>
-        <textarea name="comment" id="comment" class="form-control" rows="4" placeholder="Additional information about the invoice..." rows="1"></textarea>
-    </div>
+                        <div class="form-group col-md-3 mb-3">
+                            <label for="total-a-$(number)" class="form-label mb-1 fw-semibold">Total</label>
+                            <input type="number" min="1" step="0.1" class="form-control" id="total-a-$(number)" name="total_a" placeholder="0.00" readonly>
+                        </div>
+                    </div>`;
 
-    <button type="submit" class="btn btn-primary">Save</button>
-    <br><br>
-</form>
+        $('#wrapper:last').append(formAdd);
+    })
+
+
+
+    // Remove last item line
+    $(document).on('click', '#btn-remove', function(){
+       
+            $('#wrapper').children().last().remove();
+        
+    })
+
+</script>
+
+
 {% endblock content %}
+

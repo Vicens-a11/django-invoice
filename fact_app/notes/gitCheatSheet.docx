@@ -729,3 +729,303 @@ error: Your local changes to the following files would be overwritten by checkou
 Please commit your changes or stash them before you switch branches.
 Aborting
 (env) PS E:\projets_Django\systeme_facturation\django_invoice> 
+
+Exactement Kentio 😎 ! Ce message de Git est **très clair**, il te dit pourquoi il bloque ton `checkout`. Décortiquons :
+
+---
+
+### 1️⃣ Ce que Git te dit
+
+```
+error: Your local changes to the following files would be overwritten by checkout:
+        fact_app/notes/gitCheatSheet.docx
+Please commit your changes or stash them before you switch branches.
+Aborting
+```
+
+* **“Your local changes … would be overwritten”** → si Git te laissait changer de branche maintenant, le fichier `gitCheatSheet.docx` serait écrasé par la version de cette branche (`improve-add-customer`).
+* Git **ne veut pas perdre tes modifications locales** → il bloque le checkout.
+
+---
+
+### 2️⃣ Pourquoi ça se produit
+
+* Tu as **modifié `gitCheatSheet.docx`** sur ta branche actuelle (`main`).
+* Tu veux passer à `improve-add-customer`.
+* Git doit savoir **ce qu’il fait de tes changements locaux** avant de changer de branche.
+
+---
+
+### 3️⃣ Comment résoudre
+
+#### Option A : Commit tes modifications
+
+```bash
+git add fact_app/notes/gitCheatSheet.docx
+git commit -m "Update gitCheatSheet"
+git checkout improve-add-customer
+```
+
+✅ Tes modifications sont maintenant **sauvées dans un commit**, tu peux changer de branche sans problème.
+
+---
+
+#### Option B : Stash tes modifications (pas de commit)
+
+```bash
+git stash           # mets de côté tes changements
+git checkout improve-add-customer
+git stash pop       # récupère tes changements si tu veux continuer dessus
+```
+
+* Utile si tu ne veux pas polluer l’historique avec un commit temporaire
+* Très pratique pour tester une branche sans finir ton travail actuel
+
+---
+
+#### Option C : Supprimer le fichier local (risqué)
+
+```bash
+rm fact_app/notes/gitCheatSheet.docx
+git checkout improve-add-customer
+```
+
+* **Attention : tu perds le fichier ou tes modifications si tu ne les as pas sauvegardées.**
+
+---
+
+### 4️⃣ Résumé rapide
+
+* Pour **changer de branche avec des fichiers modifiés** → tu dois soit :
+
+  1. `git add + git commit`
+  2. `git stash`
+* **Push** n’est pas nécessaire juste pour changer de branche.
+* Les fichiers **untracked** bloquent aussi le checkout → ils doivent être ajoutés ou stashed.
+
+---
+
+Si tu veux, je peux te faire un **mini schéma “changer de branche avec un fichier modifié ou non suivi”** qui montre exactement quoi faire étape par étape pour ne jamais être bloqué.
+
+Veux‑tu que je fasse ça ?
+
+
+
+
+
+Parfait Kentio 😄 ! Voici un **schéma visuel simple pour comprendre comment Git gère un fichier modifié ou non suivi quand tu veux changer de branche** :
+
+```
+           ┌───────────────────────────────┐
+           │ Branche actuelle : main       │
+           │ Fichier modifié : gitCheatSheet.docx │
+           └───────────────┬───────────────┘
+                           │
+           ┌───────────────┴───────────────┐
+           │ Git bloque le checkout        │
+           │ car tes changements locaux    │
+           │ seraient écrasés              │
+           └───────────────┬───────────────┘
+                           │
+           ┌───────────────┴───────────────┐
+           │ Options pour continuer        │
+           └───────────────┬───────────────┘
+                           │
+       ┌───────────┬─────────────┬───────────────┐
+       │           │             │               │
+  Option A      Option B       Option C       Option D
+ Commit          Stash         Supprimer      Ajouter temporaire
+(add+commit)    (stash)       fichier local  (git add)
+       │           │             │               │
+       ▼           ▼             ▼               ▼
+Fichier sauvé  Modifs mises     Fichier        Fichier pris
+dans l’historique de côté       supprimé       en compte
+       │           │             │               │
+       ▼           ▼             ▼               ▼
+git checkout -> branche cible  git checkout -> branche cible
+```
+
+---
+
+### 🔹 Explications :
+
+**Option A : Commit**
+
+```bash
+git add gitCheatSheet.docx
+git commit -m "Update gitCheatSheet"
+git checkout improve-add-customer
+```
+
+* Sauvegarde les changements dans l’historique local.
+* ✅ Très sûr, rien n’est perdu.
+
+**Option B : Stash**
+
+```bash
+git stash
+git checkout improve-add-customer
+git stash pop
+```
+
+* Met les changements de côté temporairement.
+* Pratique pour tester une branche sans commiter.
+
+**Option C : Supprimer**
+
+```bash
+rm gitCheatSheet.docx
+git checkout improve-add-customer
+```
+
+* Risqué → les modifications sont perdues si non sauvegardées.
+
+**Option D : Ajouter temporairement**
+
+* Ajouter au staging mais ne pas committer peut aussi suffire dans certains cas.
+* ⚠️ Git peut toujours bloquer si le fichier existe dans la branche cible.
+
+---
+
+💡 **Règle d’or :**
+
+> Avant de changer de branche, **toujours commit ou stash tes modifications**. Les fichiers untracked bloquent aussi → commit ou stash obligatoire.
+
+---
+
+Si tu veux, je peux maintenant te faire **un “workflow Git complet pour ton projet Django”** incluant :
+
+* Création de branche
+* Modifications
+* Commit, stash, push
+* Retour à main
+* Gestion des fichiers bloquants
+
+Ça te donnerait **une référence étape par étape pour ne plus jamais être bloqué**.
+
+
+
+
+
+
+
+
+git checkout improve-add-customer
+>>
+ 1 file changed, 360 insertions(+)
+Switched to branch 'improve-add-customer'
+Your branch is ahead of 'origin/improve-add-customer' by 1 commit.
+  (use "git push" to publish your local commits)
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git status
+On branch improve-add-customer
+Your branch is ahead of 'origin/improve-add-customer' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git checkout main
+Switched to branch 'main'
+Your branch is ahead of 'origin/main' by 2 commits.
+  (use "git push" to publish your local commits)
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> git status
+On branch main
+Your branch is ahead of 'origin/main' by 2 commits.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+(env) PS E:\projets_Django\systeme_facturation\django_invoice> 
+
+
+
+
+
+Parfait Kentio 😎, ce que Git te dit là est **très clair**. Décortiquons ligne par ligne pour bien comprendre ce qui se passe :
+
+---
+
+### 1️⃣ Tu es passé sur ta branche `improve-add-customer`
+
+```bash
+git checkout improve-add-customer
+Switched to branch 'improve-add-customer'
+Your branch is ahead of 'origin/improve-add-customer' by 1 commit.
+(use "git push" to publish your local commits)
+```
+
+* ✅ Tu es maintenant sur la branche `improve-add-customer`.
+* **“ahead by 1 commit”** → signifie que tu as fait **un commit local** qui n’a pas encore été envoyé sur GitHub.
+* `git push` enverra ce commit sur le dépôt distant.
+
+```bash
+git status
+On branch improve-add-customer
+Your branch is ahead of 'origin/improve-add-customer' by 1 commit.
+nothing to commit, working tree clean
+```
+
+* Rien à committer → tous tes changements locaux sont déjà dans un commit.
+* “working tree clean” → ton dossier de travail n’a pas de fichiers modifiés non suivis.
+
+---
+
+### 2️⃣ Puis tu es retourné sur `main`
+
+```bash
+git checkout main
+Switched to branch 'main'
+Your branch is ahead of 'origin/main' by 2 commits.
+(use "git push" to publish your local commits)
+```
+
+* ✅ Tu es maintenant sur `main`.
+* **“ahead by 2 commits”** → tu as **2 commits locaux** sur `main` qui ne sont pas encore sur GitHub.
+* `git push` enverra ces deux commits sur le dépôt distant.
+
+```bash
+git status
+On branch main
+Your branch is ahead of 'origin/main' by 2 commits.
+nothing to commit, working tree clean
+```
+
+* Comme avant, rien à committer → tous tes changements sont déjà dans des commits.
+* “working tree clean” → aucun fichier modifié ou non suivi actuellement.
+
+---
+
+### 3️⃣ Ce que ça signifie concrètement
+
+* Tu peux **travailler sur `main` ou `improve-add-customer` normalement**, faire des commits.
+* Mais tes commits **ne sont pas encore sur GitHub**, donc si tu veux sauvegarder en ligne, il faut faire :
+
+```bash
+git push
+```
+
+* Sur `main` → `git push origin main`
+* Sur `improve-add-customer` → `git push origin improve-add-customer` (ou juste `git push` si tu as fait `-u` avant)
+
+---
+
+### 4️⃣ Bonnes pratiques ici
+
+1. **Push régulièrement** pour ne pas perdre tes commits locaux.
+2. **Commit souvent** pour avoir un historique clair.
+3. Avant de changer de branche :
+
+   * soit `working tree clean`
+   * soit stash si tu ne veux pas commit.
+4. Utiliser `git status` souvent → très utile pour savoir où tu en es.
+
+---
+
+Si tu veux, je peux te faire **un mini “workflow visuel Git pour ton projet Django”** montrant :
+
+* main
+* branches de features (`improve-add-customer`)
+* commits locaux
+* push
+* checkout entre branches
+
+…tout en un seul diagramme pour que tu sois **jamais bloqué**.
+
+Veux‑tu que je fasse ça ?

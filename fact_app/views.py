@@ -61,3 +61,45 @@ class AddCustomerView(View):
             messages.error(request, f"Sorry our system is decting the following issues {e}.")
             
         return render(request, self.template_name)
+    
+    
+class AddInvoiceView(View):
+    """ Add Invoice """
+    
+    template_name = "add_invoice.html"
+    
+    def get(self, request, *args, **kargs):
+        customers = Customer.objects.select_related().all()
+        context = {
+            'customers': customers
+        }
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kargs):
+        # print(request.POST)
+        data = {
+            'customer_id': request.POST.get('customer'),
+            'invoice_type': request.POST.get('invoice_type'),
+            'amount': request.POST.get('amount'),
+            'description': request.POST.get('description'),
+            'save_by': request.user
+        }
+        
+        try:
+            created = Invoice.objects.create(**data)
+            if created:
+                
+                messages.success(request, "Invoice registered successfully.")
+            
+            else:
+                
+                messages.error(request, "Sorry, please try again the sent data is corrput.")
+        
+        except Exception as e:
+            messages.error(request, f"Sorry our system is decting the following issues {e}.")
+            
+        customers = Customer.objects.all()
+        context = {
+            'customers': customers
+        }
+        return render(request, self.template_name, context)
